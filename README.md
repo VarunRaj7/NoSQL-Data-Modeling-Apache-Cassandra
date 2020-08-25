@@ -43,7 +43,7 @@ Given the SessionId and itemInSession, the query should return the artist, song 
 So, the primary key should be:
     
     PartitionKey: sessionId
-    ClusteringKey: itemInSession, userId
+    ClusteringKey: itemInSession
 
 This will uniquely identify each song played in the given session and item in session by userId. 
 
@@ -53,8 +53,8 @@ Given the sessionId and userId, the query should return the artist, song title (
 
 So, the primary key should be:
     
-    PartitionKey: userId
-    ClusteringKey: sessionId, itemInSession
+    PartitionKey: userId, sessionId
+    ClusteringKey: itemInSession
 
 This will uniquely identify each song played in the given session and item in session by userId. However, the clustering key will sort the songs history of user by sessionId and then by the itemInSession, which satisfies the condition of sort by itemInSession. 
 
@@ -65,8 +65,8 @@ Given the song_title, the query should return the user name (first name and last
 So, the primary key should be:
     
     PartitionKey: song_title
-    ClusteringKey: first_name and last_name
+    ClusteringKey: userId
 
-This will uniquely identify each song played by user, the clustering key of first name and last name is used. Alternatively, one can also use userId alone which is unique to first name and last name.
+This will uniquely identify each song played by user, the clustering key of userId which is unique to first name and last name.
 
 ##### Note: Even if the song is played multiple times by user, it will only update the already inserted row with the same value 
